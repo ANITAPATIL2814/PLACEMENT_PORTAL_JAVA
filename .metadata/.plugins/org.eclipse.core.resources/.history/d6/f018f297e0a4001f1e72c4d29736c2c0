@@ -1,0 +1,8 @@
+package com.demo.service;
+
+import com.demo.entity.Appointment;
+
+public interface AppointmentService {
+	
+    Appointment bookAppointment(int patientId, Long labTestId);
+}

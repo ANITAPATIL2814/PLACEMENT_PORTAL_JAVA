@@ -1,0 +1,32 @@
+package com.demo.entity;
+
+import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class Appointment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // for auto increment
+    private Long appointmentId;
+
+    private String appointmentDateTime;
+
+    @ManyToOne // Assuming many appointments can be linked to one patient
+    @JoinColumn(name = "patient_id", referencedColumnName = "patientId") // Foreign key column in 'Appointment' table
+    private Patient patient;
+
+    @OneToOne // Assuming an appointment links to one lab test
+    @JoinColumn(name = "lab_test_id", referencedColumnName = "LabId") // Foreign key column in 'Appointment' table
+    private LabTest labTest;
+}

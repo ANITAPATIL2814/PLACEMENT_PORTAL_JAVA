@@ -1,0 +1,27 @@
+package com.demo.controller;
+
+import com.demo.entity.Appointment;
+import com.demo.exception.AppointmentNotFoundException;
+import com.demo.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class AppointmentController {
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @PostMapping("/book")
+    public ResponseEntity<Appointment> bookAppointment(@RequestParam int patientId, @RequestParam Long LabId) {
+        Appointment appointment = appointmentService.bookAppointment(patientId, LabId);
+        return ResponseEntity.ok(appointment);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long appointmentId) throws AppointmentNotFoundException {
+        Appointment appointment = appointmentService.viewAppointmentById(appointmentId);
+        return ResponseEntity.ok(appointment);
+    }
+}

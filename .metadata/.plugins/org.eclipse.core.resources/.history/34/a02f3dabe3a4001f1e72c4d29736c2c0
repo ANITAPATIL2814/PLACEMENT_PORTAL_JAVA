@@ -1,0 +1,41 @@
+package com.demo.serviceimpl;
+
+import com.demo.entity.Appointment;
+import com.demo.entity.Patient;
+import com.demo.exception.AppointmentNotFoundException;
+import com.demo.entity.LabTest;
+import com.demo.repository.AppointmentRepository;
+import com.demo.repository.PatientRepository;
+import com.demo.repository.LabTestRepository;
+import com.demo.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+public class AppointmentServiceImpl implements AppointmentService {
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private LabTestRepository labTestRepository;
+
+    @PostMapping("/appointments")
+    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
+        Appointment createdAppointment = appointmentService.bookAppointment(appointment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
+    }
+
+    
+    @Override
+    public Appointment viewAppointmentById(Long appointmentId) throws AppointmentNotFoundException {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found with ID: " + appointmentId));
+    }
+}

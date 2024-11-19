@@ -1,0 +1,18 @@
+package com.demo.service;
+
+import com.demo.entity.Appointment;
+import com.demo.exception.AppointmentNotFoundException;
+
+public interface AppointmentService {
+	
+    Appointment bookAppointment(Appointment appointment);
+    
+    Appointment viewAppointmentById(Long appointmentId) throws AppointmentNotFoundException;
+
+    // Method to cancel an appointment
+    boolean cancelAppointment(Long appointmentId) throws AppointmentNotFoundException;
+
+    // Method to update appointment status (if relevant for business logic)
+    Appointment updateAppointmentStatus(Long appointmentId, String newStatus) throws AppointmentNotFoundException;
+}
+}

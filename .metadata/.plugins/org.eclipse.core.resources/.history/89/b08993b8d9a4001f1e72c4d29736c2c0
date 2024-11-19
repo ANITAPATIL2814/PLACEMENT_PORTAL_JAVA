@@ -1,0 +1,16 @@
+package com.demo.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.demo.entity.Patient;
+
+//extends JpaRepository for inbuilt method 
+public interface PatientRepository  extends JpaRepository <Patient ,Integer >{
+	//Custom query - to fetch patient detail based on contact number
+	//@Query: Annotation to declare finder queries directly on repository methods.
+	 // Custom query - to fetch patient detail based on contact number
+    @Query("SELECT pd.patient FROM Patient pd WHERE pd.contactNumber =: contactNumber ")
+    Patient findByPhone(String contactNumber);
+    
+}

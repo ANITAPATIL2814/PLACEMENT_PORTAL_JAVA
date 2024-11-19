@@ -1,0 +1,30 @@
+package com.demo.serviceimpl;
+
+import com.demo.entity.Appointment;
+import com.demo.entity.Patient;
+import com.demo.exception.AppointmentNotFoundException;
+import com.demo.entity.LabTest;
+import com.demo.repository.AppointmentRepository;
+import com.demo.repository.PatientRepository;
+import com.demo.repository.LabTestRepository;
+import com.demo.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+@Service
+public class AppointmentServiceImpl implements AppointmentService {
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Override
+    public Appointment bookAppointment(Appointment appointment) {
+        // Logic to save the appointment (ensure you fetch and set the Patient and LabTest entities if needed)
+        return appointmentRepository.save(appointment);
+    }
+    
+    @Override
+    public Appointment viewAppointmentById(Long appointmentId) throws AppointmentNotFoundException {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found with ID: " + appointmentId));
+    }
+}

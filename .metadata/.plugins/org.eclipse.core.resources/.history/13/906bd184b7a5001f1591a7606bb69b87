@@ -1,0 +1,45 @@
+package com.demo.controller;
+
+import com.demo.entity.Appointment;
+import com.demo.exception.AppointmentNotFoundException;
+import com.demo.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class AppointmentController {
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @PostMapping("/book")
+    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
+        Appointment createdAppointment = appointmentService.bookAppointment(appointment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
+
+    }
+    
+    @GetMapping("/appointmentbyid/{appointmentId}")
+    public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long appointmentId) throws AppointmentNotFoundException {
+        Appointment appointment = appointmentService.viewAppointmentById(appointmentId);
+        return ResponseEntity.ok(appointment);
+    }
+    
+    // Endpoint to cancel an appointment
+    @PatchMapping("/cancel/{appointmentId}")
+    public ResponseEntity<String> cancelAppointment(@PathVariable Long appointmentId) {
+        try {
+            boolean isCancelled = appointmentService.cancelAppointment(appointmentId);
+            if (isCancelled) {
+                return new ResponseEntity<>("Appointment canceled successfully.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Failed to cancel the appointment.", HttpStatus.BAD_REQUEST);
+            }
+        } catch (AppointmentNotFoundException e) {
+            return new ResponseEntity<>("Appointment not found.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+}

@@ -1,0 +1,11 @@
+package com.demo.service;
+
+import com.demo.entity.Appointment;
+import com.demo.exception.AppointmentNotFoundException;
+
+public interface AppointmentService {
+	
+    Appointment bookAppointment(Appointment appointment);
+    
+    Appointment viewAppointmentById(Long appointmentId) throws AppointmentNotFoundException;
+}

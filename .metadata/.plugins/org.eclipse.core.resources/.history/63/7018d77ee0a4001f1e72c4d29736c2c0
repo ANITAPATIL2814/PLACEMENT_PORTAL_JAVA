@@ -1,0 +1,50 @@
+package com.demo.service.impl;
+
+import com.demo.entity.Appointment;
+import com.demo.entity.Patient;
+import com.demo.entity.LabTest;
+import com.demo.repository.AppointmentRepository;
+import com.demo.repository.PatientRepository;
+import com.demo.repository.LabTestRepository;
+import com.demo.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+public class AppointmentServiceImpl implements AppointmentService {
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private LabTestRepository labTestRepository;
+
+    @Override
+    public Appointment bookAppointment(Integer patientId, Long labTestId) {
+        // Fetch the patient and lab test by their IDs
+        Optional<Patient> patientOptional = patientRepository.findById(patientId);
+        Optional<LabTest> labTestOptional = labTestRepository.findById(labTestId);
+
+        if (patientOptional.isEmpty() || labTestOptional.isEmpty()) {
+            throw new IllegalArgumentException("Invalid patient or lab test ID.");
+        }
+
+        Patient patient = patientOptional.get();
+        LabTest labTest = labTestOptional.get();
+
+        // Create a new appointment
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentDateTime(LocalDateTime.now()); // Set the current time or allow a custom time
+        appointment.setPatient(patient);
+        appointment.setLabTest(labTest);
+
+        // Save the appointment to the database
+        return appointmentRepository.save(appointment);
+    }
+}
