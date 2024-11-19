@@ -1,0 +1,37 @@
+package com.demo.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+// Represents the Admin entity
+@Entity
+@Getter // Generates all getter methods
+@Setter // Generates all setter methods
+public class Admin {
+
+    @Id // Specifies the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the primary key value
+    private Long AdminId;
+
+    @NotBlank(message = "Admin name is mandatory") // Ensures the name is not blank
+    @Column(length = 50, nullable = false) // Sets column length and non-null constraint
+    private String AdminName;
+
+    @NotBlank(message = "Admin email is mandatory") // Ensures the email is not blank
+    @Email(message = "Admin email is invalid, enter a proper email") // Validates the email format
+    @Column(length = 50, nullable = false, unique = true) // Sets column length, non-null, and unique constraint
+    private String email;
+
+    @NotBlank(message = "Password is mandatory") // Ensures the password is not blank
+    @Size(min = 8, message = "Password must be at least 8 characters long") // Minimum password length
+    @Column(nullable = false) // Sets non-null constraint
+    private String AdminPassword;
+
+    @OneToMany
+    private List<PlacementDrive> placementDrives;
+
+}

@@ -1,0 +1,4 @@
+package com.demo.repository;
+
+public interface JobPostingRepository extends JpaRepository<JobPosting, Long> {
+}

@@ -1,0 +1,21 @@
+@Entity
+public class PlacementDrive {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String role;
+    private Double salary;
+    private Date driveDate;
+
+    @ManyToOne
+    private Company company;
+
+    @ManyToOne
+    private Admin admin;
+
+    @ManyToMany
+    private List<Student> participants;
+
+    // Getters, Setters, Constructors
+}

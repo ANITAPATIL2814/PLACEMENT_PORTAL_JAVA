@@ -1,0 +1,32 @@
+package com.demo.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+// Represents the College entity
+@Entity
+@Getter // Generates all getter methods
+@Setter // Generates all setter methods
+public class College {
+
+    @Id // Specifies the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the primary key value
+    private Long CollegeId;
+
+    @NotBlank(message = "College name is mandatory") // Ensures the name is not blank
+    @Column(length = 100, nullable = false) // Sets column length and non-null constraint
+    private String CollegeName;
+
+    @NotBlank(message = "College address is mandatory") // Ensures the address is not blank
+    @Column(length = 255, nullable = false) // Sets column length and non-null constraint
+    private String CollegeAddress;
+
+    @OneToMany
+    // Establishes a relationship with Student
+    private List<Student> students;
+
+}

@@ -1,0 +1,43 @@
+package com.demo.entity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.sql.Date;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+
+// Represents the PlacementDrive entity
+@Entity
+@Getter // Generates all getter methods
+@Setter // Generates all setter methods
+public class PlacementDrive {
+
+    @Id // Specifies the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the primary key value
+    private Long DriveId;
+
+    @NotBlank(message = "Role is mandatory") // Ensures the role is not blank
+    @Column(length = 100, nullable = false) // Sets column length and non-null constraint
+    private String DriveRole; //like Software Engineer
+
+    @NotNull(message = "Salary is mandatory") // Ensures salary is not null
+    @Column(nullable = false) // Sets non-null constraint
+    private Double Salary;
+
+    @NotNull(message = "Drive date is mandatory") // Ensures drive date is not null
+    @Column(nullable = false) // Sets non-null constraint
+    private Date DriveDate;
+
+    @ManyToOne 
+    // Specifies the relationship with Company (Many PlacementDrives to one Company)
+    private Company company;
+
+    @ManyToOne 
+    // Specifies the relationship with Admin (Many PlacementDrives to one Admin)
+    private Admin admin;
+
+    @ManyToMany
+    // Specifies the relationship with Student (Many-to-Many)
+    private List<Student> participants;
+}

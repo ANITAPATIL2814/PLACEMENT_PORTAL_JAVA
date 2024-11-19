@@ -1,0 +1,21 @@
+package com.demo.service;
+
+import org.springframework.stereotype.Service;
+
+import com.demo.entity.Student;
+
+import java.util.List;
+
+public interface StudentService {
+	public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id).orElse(null);
+    }
+
+    public void saveStudent(Student student) {
+        studentRepository.save(student);
+    }
+}
