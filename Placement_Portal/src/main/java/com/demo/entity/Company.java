@@ -27,7 +27,6 @@ public class Company {
     
     private String CompanyPhone;
 
-
     @ManyToMany
     // Establishes a many-to-many relationship with Student
     private List<Student> applicants;

@@ -1,0 +1,52 @@
+package com.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.demo.entity.Student;
+import com.demo.service.StudentService;
+
+import jakarta.validation.Valid;
+
+@RestController // Convenience annotation that is itself annotated with @Controller and @ResponseBody
+@RequestMapping("/students") // Base URL for student endpoints
+public class StudentController {
+
+    @Autowired // Dependency injection for StudentService
+    StudentService studService;
+
+    // Add a new student
+    @PostMapping("/Studadd")
+    public ResponseEntity<Void> addStudent(@Valid @RequestBody Student student) {
+    	studService.addStudent(student);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(201)); // HTTP 201 Created
+    }
+
+    // Retrieve a student by ID
+    @GetMapping("/{Studid}")
+    public ResponseEntity<Student> getStudentById(@PathVariable int id) {
+        Student student = studService.getStudentById(id);
+        return new ResponseEntity<>(student, HttpStatusCode.valueOf(200)); // HTTP 200 OK
+    }
+
+ // Retrieve all students
+    @GetMapping("/allStudent") // Updated to match your required URL
+    public ResponseEntity<List<Student>> getAllStudents() {
+        List<Student> students = studService.getAllStudents();
+        return new ResponseEntity<>(students, HttpStatusCode.valueOf(200)); // HTTP 200 OK
+    }
+
+
+//    // Update student details
+//    @PutMapping("/Studupdate")
+//    public ResponseEntity<Void> updateStudent(@Valid @RequestBody Student student) {
+//    	studService.updateStudent(student);
+//        return new ResponseEntity<>(HttpStatusCode.valueOf(200)); // HTTP 200 OK
+//    }
+
+    
+}

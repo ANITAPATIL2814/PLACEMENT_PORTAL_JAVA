@@ -1,5 +1,55 @@
 package com.demo.serviceimpl;
 
-public class StudentServiceImpl {
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.entity.Student;
+import com.demo.exception.StudentNotFoundException;
+import com.demo.repository.StudentRepository;
+import com.demo.service.StudentService;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Service // Marks the class as a service class
+public class StudentServiceImpl implements StudentService {
+
+    @Autowired // To enable dependency injection for the repository
+    StudentRepository studRepository; // Provides access to repository methods
+
+    // Implementing the addStudent method
+    @Override
+    public Student addStudent(Student student) {
+        // Logic to save the student (e.g., using a repository to persist it)
+        return studRepository.save(student); // Assuming you're using JPA or another persistence layer
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        // findAll() fetches all records from the table
+        return studRepository.findAll();
+    }
+
+    @Override
+    public Student getStudentById(int studentId) throws StudentNotFoundException {
+        // findById() fetches details based on the provided ID or throws an exception if not found
+        return studRepository.findById(studentId)
+                .orElseThrow(() -> new StudentNotFoundException("Student does not exist with ID: " + studentId));
+    }
+
+//    @Override
+//    public void updateStudent(Student student) {
+//        // save() is used to update details of an existing record
+//        if (studRepository.existsById(student.getStudId())) {
+//            studRepository.save(student);
+//        } else {
+//            throw new StudentNotFoundException("Cannot update. Student does not exist with ID: " + student.getStudId());
+//        }
+//    }
+
+   
 }
