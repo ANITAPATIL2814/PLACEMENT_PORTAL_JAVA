@@ -1,0 +1,12 @@
+package com.demo.service;
+
+public interface CompanyService {
+	// Add a new company
+    Company addCompany(Company company);
+
+    // Retrieve a company by ID
+    Company getCompanyById(Long id);
+
+    // Retrieve all companies
+    List<Company> getAllCompanies();
+}

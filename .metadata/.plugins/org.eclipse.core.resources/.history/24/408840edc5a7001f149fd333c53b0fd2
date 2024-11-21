@@ -1,0 +1,62 @@
+package com.demo.controller;
+
+import com.demo.entity.Company;
+import com.demo.entity.JobPosting;
+import com.demo.repository.CompanyRepository;
+import com.demo.repository.JobPostingRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class JobPostingController {
+
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    // Create a new Company
+    @PostMapping("/job-postings/company")
+    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
+        Company savedCompany = companyRepository.save(company);
+        return ResponseEntity.ok(savedCompany);
+    }
+
+    // Create a new Job Posting
+    @PostMapping
+    public ResponseEntity<JobPosting> createJobPosting(@RequestBody JobPosting jobPosting) {
+        JobPosting savedJobPosting = jobPostingRepository.save(jobPosting);
+        return ResponseEntity.ok(savedJobPosting);
+    }
+
+    // Retrieve all Job Postings
+    @GetMapping
+    public ResponseEntity<List<JobPosting>> getAllJobPostings() {
+        List<JobPosting> jobPostings = jobPostingRepository.findAll();
+        return ResponseEntity.ok(jobPostings);
+    }
+
+    // Retrieve a Job Posting by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<JobPosting> getJobPostingById(@PathVariable Long id) {
+        return jobPostingRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Delete a Job Posting by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteJobPosting(@PathVariable Long id) {
+        if (jobPostingRepository.existsById(id)) {
+            jobPostingRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}

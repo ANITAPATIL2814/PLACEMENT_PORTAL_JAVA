@@ -1,0 +1,23 @@
+package com.demo.service;
+
+import com.demo.entity.Company;
+import com.demo.entity.Student;
+
+import java.util.List;
+
+public interface CompanyService {
+    // Add a new company
+    Company addCompany(Company company);
+
+    // Retrieve a company by ID
+    Company getCompanyById(Long companyId);
+
+    // Retrieve all companies
+    List<Company> getAllCompanies();
+
+    // Add an applicant to a company
+    Company addApplicantToCompany(Long companyId, Long studentId);
+
+    // Retrieve all applicants for a company
+    List<Student> getApplicantsForCompany(Long companyId);
+}

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.demo.entity.Student;
+import com.demo.exception.StudentNotFoundException;
 import com.demo.service.StudentService;
 
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class StudentController {
 
     // Retrieve a student by ID
     @GetMapping("/StudentId/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable int id) {
+    public ResponseEntity<Student> getStudentById(@PathVariable int id) throws StudentNotFoundException {
         Student student = studService.getStudentById(id);
         return new ResponseEntity<>(student, HttpStatusCode.valueOf(200)); // HTTP 200 OK
     }
@@ -43,12 +44,6 @@ public class StudentController {
     }
 
 
-//    // Update student details
-//    @PutMapping("/Studupdate")
-//    public ResponseEntity<Void> updateStudent(@Valid @RequestBody Student student) {
-//    	studService.updateStudent(student);
-//        return new ResponseEntity<>(HttpStatusCode.valueOf(200)); // HTTP 200 OK
-//    }
 
     
 }

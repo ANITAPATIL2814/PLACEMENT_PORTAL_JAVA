@@ -1,6 +1,6 @@
 package com.demo.exception;
 
-public class StudentNotFoundException extends RuntimeException {
+public class StudentNotFoundException extends Exception {
    
 	private static final long serialVersionUID = 1L;
 

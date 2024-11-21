@@ -1,0 +1,46 @@
+package com.demo.serviceimpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.entity.Company;
+import com.demo.exception.CompanyNotFoundException;
+import com.demo.repository.CompanyRepository;
+import com.demo.service.CompanyService;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Service // Marks this class as a service
+public class CompanyServiceImpl implements CompanyService {
+
+    @Autowired // Enables dependency injection for the repository
+    private CompanyRepository companyRepository;
+
+    // Implementing the addCompany method
+    @Override
+    public Company addCompany(Company company) {
+        // Logic to save the company using the repository
+        return companyRepository.save(company);
+    }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        // findAll() fetches all records from the company table
+        return companyRepository.findAll();
+    }
+
+    @Override
+    public Company getCompanyById(Long companyId) throws CompanyNotFoundException {
+        // findById() fetches details by ID or throws an exception if not found
+        return companyRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException("Company does not exist with ID: " + companyId));
+    }
+    
+
+
+}

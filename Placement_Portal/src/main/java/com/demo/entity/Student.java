@@ -24,7 +24,6 @@ public class Student  {
     @Email(message = "Student email is invalid, enter a proper email") // Validates the email format
     @Column(length = 50, nullable = false, unique = true) // Sets the column length, non-null, and unique constraint
     private String StudEmail;
-
     
     private String phone;
     
@@ -41,5 +40,4 @@ public class Student  {
     private String StudYear;
 
     private Double StudCgpa;
-
 }

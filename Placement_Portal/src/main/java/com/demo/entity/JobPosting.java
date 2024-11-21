@@ -1,6 +1,7 @@
 package com.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,9 +27,10 @@ public class JobPosting {
     private double JobSalary;
 
     @Column(length = 100) // Defines the column length
+    @Size(max = 100, message = "Location must be less than 100 characters")
     private String JobLocation;
 
-    @ManyToOne 
-    // Specifies the relationship with the Company entity
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 }

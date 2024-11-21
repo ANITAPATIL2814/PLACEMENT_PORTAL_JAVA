@@ -1,0 +1,55 @@
+package com.demo.controller;
+
+import com.demo.entity.Company;
+import com.demo.entity.Student;
+import com.demo.service.CompanyService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/company")
+public class CompanyController {
+
+    @Autowired
+    private CompanyService companyService;
+
+    // Add a new company
+    @PostMapping("/add")
+    public ResponseEntity<Company> addCompany(@RequestBody Company company) {
+        Company createdCompany = companyService.addCompany(company);
+        return new ResponseEntity<>(createdCompany, HttpStatusCode.valueOf(201));
+    }
+
+    // Retrieve a company by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
+        Company company = companyService.getCompanyById(id);
+        return new ResponseEntity<>(company, HttpStatusCode.valueOf(200));
+    }
+
+    // Retrieve all companies
+    @GetMapping("/all")
+    public ResponseEntity<List<Company>> getAllCompanies() {
+        List<Company> companies = companyService.getAllCompanies();
+        return new ResponseEntity<>(companies, HttpStatusCode.valueOf(200));
+    }
+
+    // Add an applicant to a company
+    @PostMapping("/{companyId}/addApplicant/{studentId}")
+    public ResponseEntity<Company> addApplicantToCompany(@PathVariable Long companyId, @PathVariable Long studentId) {
+        Company updatedCompany = companyService.addApplicantToCompany(companyId, studentId);
+        return new ResponseEntity<>(updatedCompany, HttpStatusCode.valueOf(200));
+    }
+
+    // Retrieve all applicants for a company
+    @GetMapping("/{companyId}/applicants")
+    public ResponseEntity<List<Student>> getApplicantsForCompany(@PathVariable Long companyId) {
+        List<Student> applicants = companyService.getApplicantsForCompany(companyId);
+        return new ResponseEntity<>(applicants, HttpStatusCode.valueOf(200));
+    }
+}

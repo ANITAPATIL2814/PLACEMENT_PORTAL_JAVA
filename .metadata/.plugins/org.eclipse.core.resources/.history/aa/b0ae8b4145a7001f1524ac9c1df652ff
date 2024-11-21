@@ -1,0 +1,43 @@
+package com.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.demo.entity.Company;
+import com.demo.service.CompanyService;
+
+import jakarta.validation.Valid;
+
+@RestController // Marks the class as a REST controller
+public class CompanyController {
+
+    @Autowired // Dependency injection for CompanyService
+    private CompanyService companyService;
+
+    // Add a new company
+    @PostMapping("/company/add")
+    public ResponseEntity<Company> addCompany(@Valid @RequestBody Company company) {
+        Company createdCompany = companyService.addCompany(company);
+        return new ResponseEntity<>(createdCompany, HttpStatusCode.valueOf(201)); // HTTP 201 Created
+    }
+
+    // Retrieve a company by ID
+    @GetMapping("/company/{id}")
+    public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
+        Company company = companyService.getCompanyById(id);
+        return new ResponseEntity<>(company, HttpStatusCode.valueOf(200)); // HTTP 200 OK
+    }
+
+    // Retrieve all companies
+    @GetMapping("/company/all")
+    public ResponseEntity<List<Company>> getAllCompanies() {
+        List<Company> companies = companyService.getAllCompanies();
+        return new ResponseEntity<>(companies, HttpStatusCode.valueOf(200)); // HTTP 200 OK
+    }
+
+
+}

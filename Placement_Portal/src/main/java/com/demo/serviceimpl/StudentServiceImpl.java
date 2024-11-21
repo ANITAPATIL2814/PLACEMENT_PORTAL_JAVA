@@ -41,15 +41,7 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(() -> new StudentNotFoundException("Student does not exist with ID: " + studentId));
     }
 
-//    @Override
-//    public void updateStudent(Student student) {
-//        // save() is used to update details of an existing record
-//        if (studRepository.existsById(student.getStudId())) {
-//            studRepository.save(student);
-//        } else {
-//            throw new StudentNotFoundException("Cannot update. Student does not exist with ID: " + student.getStudId());
-//        }
-//    }
+
 
    
 }

@@ -1,0 +1,46 @@
+package com.demo.service.impl;
+
+import com.demo.entity.JobPosting;
+import com.demo.repository.JobPostingRepository;
+import com.demo.service.JobPostingService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class JobPostingServiceImpl implements JobPostingService {
+
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
+
+    @Override
+    public JobPosting addJobPosting(JobPosting jobPosting) {
+        // Save and return the newly created job posting
+        return jobPostingRepository.save(jobPosting);
+    }
+
+    @Override
+    public JobPosting getJobPostingById(Long id) {
+        // Find job posting by ID or throw an exception if not found
+        return jobPostingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("JobPosting not found with ID: " + id));
+    }
+
+    @Override
+    public List<JobPosting> getAllJobPostings() {
+        // Retrieve and return all job postings
+        return jobPostingRepository.findAll();
+    }
+
+    @Override
+    public void deleteJobPosting(Long id) {
+        // Check if the job posting exists
+        if (!jobPostingRepository.existsById(id)) {
+            throw new RuntimeException("JobPosting not found with ID: " + id);
+        }
+        // Delete the job posting by ID
+        jobPostingRepository.deleteById(id);
+    }
+}
