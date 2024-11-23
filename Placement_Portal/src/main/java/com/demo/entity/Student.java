@@ -1,5 +1,8 @@
 package com.demo.entity;
 
+
+import com.demo.validation.ValidPhoneNumber;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -25,6 +28,9 @@ public class Student  {
     @Column(length = 50, nullable = false, unique = true) // Sets the column length, non-null, and unique constraint
     private String StudEmail;
     
+    @NotBlank(message="Student contact Number is mandatory")//to ensure char given in contactNumber
+	@Column(length = 11, nullable = false, unique=true) 
+	@ValidPhoneNumber(message="Phone number should be exactly 10 digits & Start with 6/7/8/9")
     private String phone;
     
     private String skills;

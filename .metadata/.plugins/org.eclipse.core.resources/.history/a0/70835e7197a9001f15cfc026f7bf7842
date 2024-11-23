@@ -1,0 +1,5 @@
+package com.demo.Validation;
+
+public interface ValidPhoneNumber {
+
+}

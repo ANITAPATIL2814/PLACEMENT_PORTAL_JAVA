@@ -1,4 +1,5 @@
 package com.demo.serviceimpl;
+
 import com.demo.entity.JobPosting;
 import com.demo.exception.JobPostingNotFoundException;
 import com.demo.repository.JobPostingRepository;
@@ -34,5 +35,35 @@ public class JobPostingServiceImpl implements JobPostingService {
         return jobPostingRepository.findAll();
     }
 
-   
+    // Update an existing job posting
+    @Override
+    public JobPosting updateJobPosting(Long id, JobPosting jobPostingDetails) throws JobPostingNotFoundException {
+        // Check if the job posting exists by its ID
+        JobPosting existingJobPosting = jobPostingRepository.findById(id)
+                .orElseThrow(() -> new JobPostingNotFoundException("Job Posting not found with ID: " + id));
+
+        // Update the job posting fields
+        existingJobPosting.setJobTitle(jobPostingDetails.getJobTitle());
+        existingJobPosting.setJobDescription(jobPostingDetails.getJobDescription());
+        existingJobPosting.setJobLocation(jobPostingDetails.getJobLocation());
+        existingJobPosting.setCompany(jobPostingDetails.getCompany());
+        existingJobPosting.setJobSalary(jobPostingDetails.getJobSalary());
+
+        // Save and return the updated job posting
+        return jobPostingRepository.save(existingJobPosting);
+    }
+
+    // Delete a job posting by ID
+    @Override
+    public boolean deleteJobPosting(Long id) throws JobPostingNotFoundException {
+        // Find the job posting by its ID
+        JobPosting existingJobPosting = jobPostingRepository.findById(id)
+                .orElseThrow(() -> new JobPostingNotFoundException("Job Posting not found with ID: " + id));
+
+        // Delete the job posting from the repository
+        jobPostingRepository.delete(existingJobPosting);
+        
+        // Return true to indicate the job posting was successfully deleted
+        return true;
+    }
 }

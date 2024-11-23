@@ -1,0 +1,41 @@
+package com.demo.controller;
+
+import com.demo.entity.JobPosting;
+import com.demo.exception.JobPostingNotFoundException;
+import com.demo.service.JobPostingService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class JobPostingController {
+
+    @Autowired
+    private JobPostingService jobPostingService;
+
+    // Add a new job posting
+    @PostMapping("/JobpostingAdd")
+    public ResponseEntity<JobPosting> addJobPosting(@RequestBody JobPosting jobPosting) {
+        JobPosting createdJobPosting = jobPostingService.addJobPosting(jobPosting);
+        return new ResponseEntity<>(createdJobPosting, HttpStatusCode.valueOf(201));
+    }
+
+    // Retrieve a job posting by ID
+    @GetMapping("/jobposting/{id}")
+    public ResponseEntity<JobPosting> getJobPostingById(@PathVariable Long id) throws JobPostingNotFoundException {
+        JobPosting jobPosting = jobPostingService.getJobPostingById(id);
+        return new ResponseEntity<>(jobPosting, HttpStatusCode.valueOf(200));
+    }
+
+    // Retrieve all job postings
+    @GetMapping("/JobpostingAll")
+    public ResponseEntity<List<JobPosting>> getAllJobPostings() {
+        List<JobPosting> jobPostings = jobPostingService.getAllJobPostings();
+        return new ResponseEntity<>(jobPostings, HttpStatusCode.valueOf(200));
+    }
+
+}

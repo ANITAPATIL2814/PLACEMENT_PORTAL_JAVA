@@ -1,0 +1,43 @@
+package com.demo.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+import com.demo.validation.ValidPhoneNumber;
+
+// Entity representing the Company
+@Entity
+@Getter // Lombok: Generates getter methods for all fields
+@Setter // Lombok: Generates setter methods for all fields
+public class Company {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID
+    private Long companyId;
+
+    @NotBlank(message = "Company name is mandatory")
+    @Column(length = 100, nullable = false) // Define column properties
+    private String companyName;
+
+    @NotBlank(message = "Company email is mandatory")
+    @Email(message = "Invalid email format")
+    @Column(length = 50, nullable = false, unique = true) // Enforce uniqueness
+    private String companyEmail;
+
+    @NotBlank(message = "Company contact number is mandatory")
+    @Column(length = 11, nullable = false, unique = true) // Define constraints
+    @ValidPhoneNumber(message = "Phone number must start with 6/7/8/9 and be 10 digits long")
+    private String companyPhone;
+
+    @ManyToMany
+    @JoinTable(
+        name = "company_student", 
+        joinColumns = @JoinColumn(name = "company_id"), 
+        inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Student> applicants; // Many-to-many relationship with Student entity
+}

@@ -1,0 +1,17 @@
+package com.demo.service;
+
+import com.demo.entity.PlacementDrive;
+
+import java.util.List;
+
+public interface PlacementDriveService {
+    PlacementDrive addPlacementDrive(PlacementDrive placementDrive);
+
+    PlacementDrive getPlacementDriveById(Long id);
+
+    List<PlacementDrive> getAllPlacementDrives();
+
+    PlacementDrive updatePlacementDrive(Long id, PlacementDrive placementDrive);
+
+    void deletePlacementDrive(Long id);
+}

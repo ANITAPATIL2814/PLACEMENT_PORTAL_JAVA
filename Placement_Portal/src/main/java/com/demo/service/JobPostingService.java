@@ -16,5 +16,9 @@ public interface JobPostingService {
     // Retrieve all job postings
     List<JobPosting> getAllJobPostings();
 
-   
+    // Update an existing job posting
+    JobPosting updateJobPosting(Long id, JobPosting jobPostingDetails) throws JobPostingNotFoundException;
+
+    // Delete a job posting by ID
+    boolean deleteJobPosting(Long id) throws JobPostingNotFoundException;
 }

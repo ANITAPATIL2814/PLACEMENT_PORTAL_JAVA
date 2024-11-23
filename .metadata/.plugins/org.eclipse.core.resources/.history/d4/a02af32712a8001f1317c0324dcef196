@@ -1,0 +1,55 @@
+package com.demo.controller;
+
+import com.demo.entity.PlacementDrive;
+import com.demo.exception.PlacementDriveNotFoundException;
+import com.demo.service.PlacementDriveService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class PlacementDriveController {
+
+    @Autowired
+    private PlacementDriveService placementDriveService;
+
+    // Add a new placement drive
+    @PostMapping("/placementdriveadd")
+    public ResponseEntity<PlacementDrive> addPlacementDrive(@RequestBody PlacementDrive placementDrive) {
+        PlacementDrive createdDrive = placementDriveService.addPlacementDrive(placementDrive);
+        return new ResponseEntity<>(createdDrive, HttpStatusCode.valueOf(201));
+    }
+
+    // Retrieve a placement drive by ID
+    @GetMapping("/placementdrive/{id}")
+    public ResponseEntity<PlacementDrive> getPlacementDriveById(@PathVariable Long id) throws PlacementDriveNotFoundException {
+        PlacementDrive placementDrive = placementDriveService.getPlacementDriveById(id);
+        return new ResponseEntity<>(placementDrive, HttpStatusCode.valueOf(200));
+    }
+
+    // Retrieve all placement drives
+    @GetMapping("/placementdriveall")
+    public ResponseEntity<List<PlacementDrive>> getAllPlacementDrives() {
+        List<PlacementDrive> placementDrives = placementDriveService.getAllPlacementDrives();
+        return new ResponseEntity<>(placementDrives, HttpStatusCode.valueOf(200));
+    }
+
+//    // Update a placement drive
+////    @PutMapping("/placementdriveupdate/{id}")
+////    public ResponseEntity<PlacementDrive> updatePlacementDrive(
+////            @PathVariable Long id,
+////            @RequestBody PlacementDrive placementDrive) throws PlacementDriveNotFoundException {
+////        PlacementDrive updatedDrive = placementDriveService.updatePlacementDrive(id, placementDrive);
+////        return new ResponseEntity<>(updatedDrive, HttpStatusCode.valueOf(200));
+////    }
+//
+//    // Delete a placement drive by ID
+////    @DeleteMapping("/placementdrivedelete/{id}")
+////    public ResponseEntity<Void> deletePlacementDrive(@PathVariable Long id) throws PlacementDriveNotFoundException {
+////        placementDriveService.deletePlacementDrive(id);
+////        return new ResponseEntity<>(HttpStatusCode.valueOf(204));
+////    }
+}

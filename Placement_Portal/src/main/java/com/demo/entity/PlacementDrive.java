@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 // Represents the PlacementDrive entity
 @Entity
@@ -16,7 +16,7 @@ public class PlacementDrive {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the primary key value
     private Long PlacementDriveId;
 
-    private Date driveDate;
+    private LocalDateTime driveDate;
 
     private int numberOfVacancies;
 
