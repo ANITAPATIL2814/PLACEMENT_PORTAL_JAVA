@@ -1,0 +1,14 @@
+package com.demo.repository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.demo.entity.Company;
+
+public interface CompanyRepository extends JpaRepository<Company, Long> {
+
+	  // Custom method to fetch a page of patients sorted by a field
+  Page<Company> findAll(Pageable pageable);
+  
+}

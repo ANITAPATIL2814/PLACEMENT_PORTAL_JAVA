@@ -1,0 +1,12 @@
+package com.demo.service;
+
+public interface DoctorService {
+	
+	 public Doctor getDoctor(Long id) {
+	        return doctorRepository.findById(id).orElse(null);
+	    }
+
+	    public List<Doctor> getAllDoctors() {
+	        return doctorRepository.findAll();
+	    }
+}

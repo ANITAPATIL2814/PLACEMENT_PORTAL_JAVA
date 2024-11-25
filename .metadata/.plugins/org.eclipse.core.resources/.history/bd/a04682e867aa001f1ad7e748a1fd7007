@@ -1,0 +1,19 @@
+package com.demo.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DoctorController {
+	
+	// Get a Doctor by ID
+    @GetMapping("/{id}")
+    public Doctor getDoctor(@PathVariable Long id) {
+        return doctorService.getDoctor(id);
+    }
+
+    // Get all doctors
+    @GetMapping
+    public List<Doctor> getAllDoctors() {
+        return doctorService.getAllDoctors();
+    }
+}

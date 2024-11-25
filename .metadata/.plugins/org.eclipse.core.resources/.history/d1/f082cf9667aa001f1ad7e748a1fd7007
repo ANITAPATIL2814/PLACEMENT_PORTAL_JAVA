@@ -1,0 +1,25 @@
+package com.demo.serviceimpl;
+
+import java.util.List;
+
+import com.demo.entity.Doctor;
+import com.demo.service.DoctorService;
+
+public class DoctorServiceImpl implements DoctorService{
+	
+	@Autowired
+    private DoctorRepository doctorRepository;
+	
+	@Override
+	public Doctor getDoctor(Long doctorId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Doctor> getAllDoctors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

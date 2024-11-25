@@ -1,0 +1,20 @@
+package com.demo.service;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.demo.entity.Doctor;
+import com.demo.repository.DoctorRepository;
+
+public interface DoctorService {
+	
+	@Autowired
+    private DoctorRepository doctorRepo;
+	
+	 public Doctor getDoctor(Long id) {
+	        return doctorRepo.findById(id).orElse(null);
+	    }
+
+	    public List<Doctor> getAllDoctors() {
+	        return doctorRepo.findAll();
+	    }
+}

@@ -1,47 +1,69 @@
 package com.demo.serviceimpl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.demo.entity.Student;
 import com.demo.exception.StudentNotFoundException;
 import com.demo.repository.StudentRepository;
 import com.demo.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-@Service // Marks the class as a service class
+@Service
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired // To enable dependency injection for the repository
-    StudentRepository studRepository; // Provides access to repository methods
+    @Autowired
+    private StudentRepository studentRepository;
 
-    // Implementing the addStudent method
     @Override
     public Student addStudent(Student student) {
-        // Logic to save the student (e.g., using a repository to persist it)
-        return studRepository.save(student); // Assuming you're using JPA or another persistence layer
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student getStudentById(int id) throws StudentNotFoundException {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
     }
 
     @Override
     public List<Student> getAllStudents() {
-        // findAll() fetches all records from the table
-        return studRepository.findAll();
+        return studentRepository.findAll();
     }
 
     @Override
-    public Student getStudentById(int studentId) throws StudentNotFoundException {
-        // findById() fetches details based on the provided ID or throws an exception if not found
-        return studRepository.findById(studentId)
-                .orElseThrow(() -> new StudentNotFoundException("Student does not exist with ID: " + studentId));
+    public Student updateStudent(int id, Student updatedStudent) throws StudentNotFoundException {
+        // Find the student by ID or throw exception if not found
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
+
+        // Update student details
+        student.setStudName(updatedStudent.getStudName());
+        student.setStudEmail(updatedStudent.getStudEmail());
+        student.setStudphone(updatedStudent.getStudphone());
+
+        // Save and return the updated student
+        return studentRepository.save(student);
     }
 
+    @Override
+    public void deleteStudent(int id) throws StudentNotFoundException {
+        // Find the student by ID or throw exception if not found
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
 
-
-   
+        // Delete the student
+        studentRepository.delete(student);
+    }
+    
+    //get student by name
+    @Override
+    public List<Student> findStudentsByName(String studName) {
+        return studentRepository.findByStudName(studName);
+    }
+    
+    @Override
+    public List<Student> getAllStudentsSortedByCgpa() {
+        // Using the custom repository method to get students sorted by CGPA in descending order
+        return studentRepository.findAllByOrderByStudCgpaDesc();
+    }
 }

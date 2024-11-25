@@ -13,6 +13,8 @@ public interface JobPostingService {
     // Retrieve a job posting by ID
     JobPosting getJobPostingById(Long id) throws JobPostingNotFoundException;
 
+   
+    
     // Retrieve all job postings
     List<JobPosting> getAllJobPostings();
 
@@ -21,4 +23,10 @@ public interface JobPostingService {
 
     // Delete a job posting by ID
     boolean deleteJobPosting(Long id) throws JobPostingNotFoundException;
+
+	List<JobPosting> searchJobPostingByName(String jobName);
+    
+	List<JobPosting> getJobPostingsSortedBySalaryAsc();
+    
+    List<JobPosting> getJobPostingsSortedBySalaryDesc();
 }

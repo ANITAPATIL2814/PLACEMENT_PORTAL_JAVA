@@ -1,0 +1,21 @@
+package com.demo.service;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.demo.entity.Doctor;
+import com.demo.exception.DoctorNotFoundException;
+import com.demo.repository.DoctorRepository;
+
+public interface DoctorService {
+	
+	@Autowired
+    private DoctorRepository doctorRepo;
+	
+	 public Doctor getDoctor(Long doctorId) {
+	        return doctorRepo.findById(doctorId).orElseThrow(() -> new DoctorNotFoundException("Entered doctor id is invalid"));
+	    }
+
+	    public List<Doctor> getAllDoctors() {
+	        return doctorRepo.findAll();
+	    }
+}

@@ -7,36 +7,37 @@ import lombok.Setter;
 import java.util.List;
 
 import com.demo.validation.ValidPhoneNumber;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
-// Represents the Company entity
+// Represents the Company entity in the database
 @Entity
-@Getter // Generates all getter methods
-@Setter // Generates all setter methods
+@Getter // Lombok annotation to generate getter methods automatically
+@Setter // Lombok annotation to generate setter methods automatically
 public class Company {
 
-    @Id // Specifies the primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the primary key value
+    @Id // Specifies this field as the primary key of the entity
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Specifies that the ID is auto-generated
     private Long CompanyId;
 
-    @NotBlank(message = "Company name is mandatory") // Ensures the name is not blank
-    @Column(length = 100, nullable = false) // Sets column length and non-null constraint
-    private String CompanyName;
+    // Validates that the company name is not blank and is mandatory
+    @NotBlank(message = "Company name is mandatory")
+    @Column(length = 100, nullable = false) // Ensures the column length and non-null constraint
+    private String companyName;
 
-    @NotBlank(message = "Company email is mandatory") // Ensures the email is not blank
-    @Email(message = "Company email is invalid, enter a proper email") // Validates the email format
-    @Column(length = 50, nullable = false, unique = true) // Sets the column length, non-null, and unique constraint
+    // Validates that the company email is not blank, must be a valid email format, and is unique
+    @NotBlank(message = "Company email is mandatory")
+    @Email(message = "Company email is invalid, enter a proper email") // Validates email format
+    @Column(length = 50, nullable = false, unique = true) // Ensures unique email and column length constraint
     private String CompanyEmail;
-    
-    @NotBlank(message="Company contact Number is mandatory")//to ensure char given in contactNumber
-	@Column(length = 11, nullable = false, unique=true) 
-    @ValidPhoneNumber(message="Phone number should be exactly 10 digits & Start with 6/7/8/9")
+
+    // Validates the contact number for the company
+    @NotBlank(message="Company contact Number is mandatory")
+    @Column(length = 11, nullable = false, unique=true) // Ensures contact number is unique and non-null
+    @ValidPhoneNumber(message="Phone number should be exactly 10 digits & Start with 6/7/8/9") // Custom phone validation
     private String CompanyPhone;
 
-    @ManyToMany
-    // Establishes a many-to-many relationship with Student
-    private List<Student> applicants;
-
-	
-
+    // Defines a one-to-many relationship with the JobPosting entity (mapped by 'company' in JobPosting)
+    @OneToMany(mappedBy = "company")
+    @JsonBackReference // Prevent circular serialization
+    private List<JobPosting> jobPostings;
 }

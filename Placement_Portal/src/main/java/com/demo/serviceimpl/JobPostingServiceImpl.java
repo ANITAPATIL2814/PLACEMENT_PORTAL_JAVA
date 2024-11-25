@@ -16,22 +16,28 @@ public class JobPostingServiceImpl implements JobPostingService {
     @Autowired
     private JobPostingRepository jobPostingRepository;
 
+    // Retrieve and return all job postings
     @Override
     public JobPosting addJobPosting(JobPosting jobPosting) {
         // Save and return the newly created job posting
         return jobPostingRepository.save(jobPosting);
     }
-
+    
+    // Find job posting by ID or throw an exception if not found
     @Override
     public JobPosting getJobPostingById(Long id) throws JobPostingNotFoundException {
-        // Find job posting by ID or throw an exception if not found
         return jobPostingRepository.findById(id)
                 .orElseThrow(() -> new JobPostingNotFoundException("Job Posting not found with ID: " + id));
     }
 
+    // Retrieve and return all job name
+    @Override
+    public List<JobPosting> searchJobPostingByName(String jobName) {
+        return jobPostingRepository.findByJobNameContainingIgnoreCase(jobName);
+    }
+    
     @Override
     public List<JobPosting> getAllJobPostings() {
-        // Retrieve and return all job postings
         return jobPostingRepository.findAll();
     }
 
@@ -43,7 +49,7 @@ public class JobPostingServiceImpl implements JobPostingService {
                 .orElseThrow(() -> new JobPostingNotFoundException("Job Posting not found with ID: " + id));
 
         // Update the job posting fields
-        existingJobPosting.setJobTitle(jobPostingDetails.getJobTitle());
+        existingJobPosting.setJobName(jobPostingDetails.getJobName());
         existingJobPosting.setJobDescription(jobPostingDetails.getJobDescription());
         existingJobPosting.setJobLocation(jobPostingDetails.getJobLocation());
         existingJobPosting.setCompany(jobPostingDetails.getCompany());
@@ -65,5 +71,16 @@ public class JobPostingServiceImpl implements JobPostingService {
         
         // Return true to indicate the job posting was successfully deleted
         return true;
+    }
+    
+    
+    @Override
+    public List<JobPosting> getJobPostingsSortedBySalaryAsc() {
+        return jobPostingRepository.findAllByOrderByJobSalaryAsc();
+    }
+
+    @Override
+    public List<JobPosting> getJobPostingsSortedBySalaryDesc() {
+        return jobPostingRepository.findAllByOrderByJobSalaryDesc();
     }
 }

@@ -41,10 +41,13 @@ public class PlacementDriveServiceImpl implements PlacementDriveService {
         return placementDriveRepository.save(existingDrive);
     }
 
-    @Override
+   
+      @Override
     public void deletePlacementDrive(Long id) throws PlacementDriveNotFoundException {
         PlacementDrive placementDrive = getPlacementDriveById(id);
         placementDriveRepository.delete(placementDrive);
     }
-}
 
+ 
+    
+}

@@ -31,6 +31,17 @@ public class JobPostingController {
         return ResponseEntity.ok(jobPosting);
     }
 
+    // Search job postings by job name
+    //http://localhost:8080/jobpostingSearch/FullStack
+    @GetMapping("/jobpostingSearch/{jobName}")
+    public ResponseEntity<List<JobPosting>> searchJobPostingByName(@PathVariable String jobName) {
+        List<JobPosting> jobPostings = jobPostingService.searchJobPostingByName(jobName);
+        if (jobPostings.isEmpty()) {
+            return ResponseEntity.noContent().build();  // 204 No Content if no job postings found
+        }
+        return ResponseEntity.ok(jobPostings);
+    }
+
     // Retrieve all job postings
     @GetMapping("/jobpostingAll")
     public ResponseEntity<List<JobPosting>> getAllJobPostings() {
@@ -62,5 +73,19 @@ public class JobPostingController {
         } catch (JobPostingNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Job posting not found.");
         }
+    }
+    
+    
+    // Endpoint to get job postings sorted by salary in ascending order
+    @GetMapping("JobPostingSorted/asc")
+    public List<JobPosting> getJobPostingsSortedBySalaryAsc() {
+        return jobPostingService.getJobPostingsSortedBySalaryAsc();
+    }
+
+    // Endpoint to get job postings sorted by salary in descending order
+    //http://localhost:8080/JobPostingSorted/desc
+    @GetMapping("/JobPostingSorted/desc")
+    public List<JobPosting> getJobPostingsSortedBySalaryDesc() {
+        return jobPostingService.getJobPostingsSortedBySalaryDesc();
     }
 }

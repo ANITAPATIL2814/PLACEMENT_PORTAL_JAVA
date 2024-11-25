@@ -1,0 +1,87 @@
+package com.demo.serviceimpl;  
+
+import com.demo.entity.Student;
+import com.demo.exception.StudentNotFoundException;
+import com.demo.repository.StudentRepository;
+import com.demo.service.StudentService;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+@Getter
+@Setter
+public class StudentServiceImpl implements StudentService {
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Override
+    public Student addStudent(Student student) {
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student getStudentById(int id) throws StudentNotFoundException {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public Student updateStudent(int id, Student updatedStudent) throws StudentNotFoundException {
+        // Find the student by ID or throw exception if not found
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
+
+        // Update student details
+        student.setStudName(updatedStudent.getStudName());
+        student.setStudEmail(updatedStudent.getStudEmail());
+        student.setStudphone(updatedStudent.getStudphone());
+
+        // Save and return the updated student
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public void deleteStudent(int id) throws StudentNotFoundException {
+        // Find the student by ID or throw exception if not found
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
+
+        // Delete the student
+        studentRepository.delete(student);
+    }
+
+    // Update findByStudName to use pagination (findByStudNameContainingIgnoreCase)
+    @Override
+    public Page<Student> findByStudName(String name, Pageable pageable) {
+        // Fetch paginated and sorted list of students by their name (case-insensitive search)
+        if (name != null && !name.isEmpty()) {
+            // Use the repository method that handles case-insensitive name matching
+            return studentRepository.findByStudNameContainingIgnoreCase(name, pageable);
+        } else {
+            // If no name is provided, return all students with pagination and sorting
+            return studentRepository.findAll(pageable);
+        }
+    }
+
+ // Find students by name (not case-sensitive)
+    @Override
+    public List<Student> findStudentsByName(String studName) {
+        if (studName != null && !studName.isEmpty()) {
+            return studentRepository.findByStudNameContainingIgnoreCase(studName);
+        }
+        return null;  // Optionally, return an empty list if no name is provided
+    }
+}

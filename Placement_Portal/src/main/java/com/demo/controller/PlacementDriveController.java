@@ -41,7 +41,7 @@ public class PlacementDriveController {
         return ResponseEntity.ok(placementDrives);
     }
     
-/*
+
     // Update a placement drive
     @PutMapping("/placementdrive/update/{id}")
     public ResponseEntity<PlacementDrive> updatePlacementDrive(
@@ -54,9 +54,8 @@ public class PlacementDriveController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
     // Delete a placement drive by ID
-    @DeleteMapping("/placementdrive/delete/{id}")
+    @DeleteMapping("/placementdriveDelete/{id}")
     public ResponseEntity<String> deletePlacementDrive(@PathVariable Long id) {
         try {
             placementDriveService.deletePlacementDrive(id);
@@ -64,5 +63,5 @@ public class PlacementDriveController {
         } catch (PlacementDriveNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Placement drive not found.");
         }
-    } */
+    } 
 }
